@@ -16,9 +16,14 @@ public class FareCalculatorService {
         
         long inHour = ticket.getInTime().getTime();
         long outHour = ticket.getOutTime().getTime();
+        float duration;
               
+        if (outHour <= (inHour + (30 * 60 *1000))) {
+			duration = 0;
+		}else {
+			duration = (outHour - inHour);
+		}
         
-        float duration = (outHour - inHour);
         
         //Converse in Hours
         
