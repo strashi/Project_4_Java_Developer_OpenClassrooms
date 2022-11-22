@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
+import javax.management.loading.PrivateClassLoader;
+
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -28,22 +30,32 @@ public class ParkingService {
     }
 
     public void processIncomingVehicle() {
+    	
+    	
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
-
+                
+                //Research of the vehicleRegNumber in DB
+               boolean recurringUser = false;
+               recurringUser = recurringUser(vehicleRegNumber);
+               if (recurringUser) {
+                    System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount." );
+               }
+                
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
+                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME, RECURRING_USER)
                 //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
+                ticket.setRecurringUser(recurringUser);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
@@ -53,8 +65,15 @@ public class ParkingService {
             logger.error("Unable to process incoming vehicle",e);
         }
     }
+    
+    public boolean recurringUser(String vehicleRegNumber) {
+		boolean vehicleRegNumberAlreadyHere;
+		return vehicleRegNumberAlreadyHere = ticketDAO.checkVehicleRegNumber(vehicleRegNumber);
+		
+	}
+    
 
-    private String getVehichleRegNumber() throws Exception {
+	private String getVehichleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
