@@ -67,8 +67,8 @@ public class ParkingService {
     }
     
     public boolean recurringUser(String vehicleRegNumber) {
-		boolean vehicleRegNumberAlreadyHere;
-		return vehicleRegNumberAlreadyHere = ticketDAO.checkVehicleRegNumber(vehicleRegNumber);
+		
+		return ticketDAO.checkVehicleRegNumber(vehicleRegNumber);
 		
 	}
     
