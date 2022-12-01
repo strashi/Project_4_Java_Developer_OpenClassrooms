@@ -98,7 +98,7 @@ public class TicketDAO {
             ResultSet rs = ps.executeQuery();
             rs.next();
             int essai = rs.getInt(1);
-            if(essai > 2) {
+            if(essai >= 2) {
             	return true;
             }
             dataBaseConfig.closeResultSet(rs);

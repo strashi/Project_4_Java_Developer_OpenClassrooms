@@ -53,7 +53,11 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+      
+
         parkingService.processIncomingVehicle();
+        parkingService.processIncomingVehicle();
+
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         boolean ticketSaved = parkingService.recurringUser("ABCDEF");
         assertEquals(true, ticketSaved);
