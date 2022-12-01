@@ -8,6 +8,8 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,8 +99,8 @@ public class TicketDAO {
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            int essai = rs.getInt(1);
-            if(essai >= 2) {
+            int numberOfEntry = rs.getInt(1);
+            if(numberOfEntry >= 1) {
             	return true;
             }
             dataBaseConfig.closeResultSet(rs);
@@ -112,4 +114,30 @@ public class TicketDAO {
         }
         return false;
     }
+    
+    public double checkPrice(String vehicleRegNumber) {
+        Connection con = null;
+        double price = -1;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.CHECK_PRICE);
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            price = rs.getDouble(1);
+         
+            	
+           
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+            
+        }catch (Exception ex){
+            logger.error("Error with vehicle reg number",ex);
+        }finally {
+            
+            dataBaseConfig.closeConnection(con);
+        }
+        return price;
+    }
+    
 }

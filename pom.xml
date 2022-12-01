@@ -188,12 +188,13 @@
 				<version>0.8.7</version>
 				<executions>
 					<execution>
+						<id>default-prepare-agent</id> <!-- une ligne ajoutée-->
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>jacoco-report</id>
+						<id>default-report</id> <!-- une ligne ajoutée-->
 						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
