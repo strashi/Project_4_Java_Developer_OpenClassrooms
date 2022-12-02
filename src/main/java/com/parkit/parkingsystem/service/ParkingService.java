@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
-import javax.management.loading.PrivateClassLoader;
-
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -29,7 +27,7 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
-    public void processIncomingVehicle() {
+    public Ticket processIncomingVehicle() {
     	
     	
         try{
@@ -57,13 +55,17 @@ public class ParkingService {
                 ticket.setOutTime(null);
                 ticket.setRecurringUser(recurringUser);
                 ticketDAO.saveTicket(ticket);
+            
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
+                return ticket;
             }
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
+           
         }
+        return null;
     }
     
     public boolean recurringUser(String vehicleRegNumber) {
@@ -116,7 +118,7 @@ public class ParkingService {
         }
     }
 
-    public void processExitingVehicle() {
+    public Ticket processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
@@ -129,11 +131,14 @@ public class ParkingService {
                 parkingSpotDAO.updateParking(parkingSpot);
                 System.out.println("Please pay the parking fare:" + ticket.getPrice());
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
+                return ticket;
             }else{
                 System.out.println("Unable to update ticket information. Error occurred");
             }
         }catch(Exception e){
             logger.error("Unable to process exiting vehicle",e);
         }
+        
+        return null;
     }
 }
