@@ -112,30 +112,6 @@ public class TicketDAO {
         }
         return false;
     }
-    
-    public double checkPrice(String vehicleRegNumber) {
-        Connection con = null;
-        double price = -1;
-        try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.CHECK_PRICE);
-            ps.setString(1, vehicleRegNumber);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            price = rs.getDouble(1);
-         
-            	
-           
-            dataBaseConfig.closeResultSet(rs);
-            dataBaseConfig.closePreparedStatement(ps);
-            
-        }catch (Exception ex){
-            logger.error("Error with vehicle reg number",ex);
-        }finally {
-            
-            dataBaseConfig.closeConnection(con);
-        }
-        return price;
-    }
+ 
     
 }

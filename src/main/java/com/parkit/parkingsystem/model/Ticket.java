@@ -1,14 +1,17 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
 import java.util.Date;
+
+//import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Ticket {
     private int id;
     private ParkingSpot parkingSpot;
     private String vehicleRegNumber;
     private double price;
+    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date inTime = new Date();
+    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date outTime = new Date();
     private boolean recurringUser;
 

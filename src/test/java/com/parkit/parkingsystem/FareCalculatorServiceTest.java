@@ -42,7 +42,8 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
         assertEquals(ticket.getPrice(), Fare.CAR_RATE_PER_HOUR);
     }
-
+    
+   
     @Test
     public void calculateFareBike(){
         Date inTime = new Date();
