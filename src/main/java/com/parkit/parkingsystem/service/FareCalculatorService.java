@@ -1,7 +1,5 @@
 package com.parkit.parkingsystem.service;
 
-
-
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
@@ -9,13 +7,9 @@ import com.parkit.parkingsystem.model.Ticket;
 public class FareCalculatorService {
 	
 	private double factor = 1;
-	//TicketDAO ticketDAO= new TicketDAO();
-	
-	
-	
+		
     public void calculateFare(Ticket ticket){
-    	System.out.println(ticket.getInTime());
-    	System.out.println(ticket.getOutTime());
+    	
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
@@ -24,30 +18,22 @@ public class FareCalculatorService {
         
         long inHour = ticket.getInTime().getTime();
         long outHour = ticket.getOutTime().getTime();
-        float duration;
-              
-        if (outHour <= (inHour + (30 * 60 *1000))) {
+        float duration = outHour - inHour;
+        
+        //Implementation of the 30 minutes free
+        if (duration <= 30 * 60 *1000) {
 			duration = 0;
-		}else {
-			duration = (outHour - inHour);
 		}
-        
-        
-        //Converse in Hours
-        
+              
+        //Conversion in Hours
         duration = duration / (1000*60*60);
         
         //Condition 5% discount
-        //Research of the vehicleRegNumber in DB
-        
-        boolean recurringUser = ticket.getRecurringUser();
-        
-        if (recurringUser) {
+        //Research if it is a recurring user
+        if (ticket.getRecurringUser()) {
         	factor = 0.95;
 		}
-               
-        
-        
+                
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
                 ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * factor);
