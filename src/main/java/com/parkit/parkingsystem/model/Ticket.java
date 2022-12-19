@@ -10,9 +10,9 @@ public class Ticket {
     private String vehicleRegNumber;
     private double price;
     //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date inTime = new Date();
+    private Date inTime; // = new Date();
     //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date outTime = new Date();
+    private Date outTime; // = new Date();
     private boolean recurringUser;
 
     public int getId() {
@@ -24,7 +24,7 @@ public class Ticket {
     }
 
     public ParkingSpot getParkingSpot() {
-        return parkingSpot;
+        return new ParkingSpot(this.parkingSpot.getId(), this.parkingSpot.getParkingType(), this.parkingSpot.isAvailable());
     }
 
     public void setParkingSpot(ParkingSpot parkingSpot) {
@@ -48,7 +48,8 @@ public class Ticket {
     }
 
     public Date getInTime() {
-        return inTime;
+        return new Date(this.inTime.getTime());
+    	//return inTime;
     }
 
     public void setInTime(Date inTime) {
@@ -56,6 +57,7 @@ public class Ticket {
     }
 
     public Date getOutTime() {
+        //return new Date(this.outTime.getTime());
         return outTime;
     }
 

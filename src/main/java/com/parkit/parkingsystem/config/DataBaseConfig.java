@@ -1,9 +1,12 @@
 package com.parkit.parkingsystem.config;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.*;
 
 public class DataBaseConfig {
 
@@ -15,8 +18,8 @@ public class DataBaseConfig {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/prod","root","rootroot");
     }
-
-    public void closeConnection(Connection con){
+    
+   public void closeConnection(Connection con){
         if(con!=null){
             try {
                 con.close();

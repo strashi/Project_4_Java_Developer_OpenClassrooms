@@ -56,7 +56,7 @@ public class ParkingSpotDAOTest {
 		//System.out.println(parkingType.toString());
 		//when(parkingType.toString()).thenReturn("CAR");
 		
-		int result =  parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
+		int result =  parkingSpotDAO.getNextAvailableSlot(parkingType);
 		
 		
 		assertTrue(result > 0);
@@ -69,7 +69,7 @@ public class ParkingSpotDAOTest {
 	
 	@Test
 	public void parkingSpotDAO_updateParkingTest() {
-		when(parkingSpot.isAvailable()).thenReturn(false);
+		when(parkingSpot.isAvailable()).thenReturn(true);
 		when(parkingSpot.getId()).thenReturn(1);
 		assertTrue(parkingSpotDAO.updateParking(parkingSpot));
 		

@@ -29,7 +29,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
 
-	private static ParkingService parkingService;
+	private ParkingService parkingService;
 
 	@Mock
 	private static InputReaderUtil inputReaderUtil;

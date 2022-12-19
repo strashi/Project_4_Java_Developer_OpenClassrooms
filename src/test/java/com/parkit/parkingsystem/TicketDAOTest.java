@@ -69,7 +69,7 @@ public class TicketDAOTest {
 		ticketDAO = new TicketDAO();
 		ticketDAO.dataBaseConfig = dataBaseTestConfig;
 	}
-	@Disabled
+
 	@Test
 	public void parkingSystemDAO_TicketDAO_saveTicketTest() throws Exception {
 		

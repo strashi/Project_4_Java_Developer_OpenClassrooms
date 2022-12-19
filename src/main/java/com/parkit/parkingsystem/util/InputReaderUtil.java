@@ -1,13 +1,18 @@
 package com.parkit.parkingsystem.util;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class InputReaderUtil {
 
-    private static Scanner scan = new Scanner(System.in);
+   	private static InputStreamReader isr = new InputStreamReader(System.in, Charset.defaultCharset());
+					
+	private static Scanner scan = new Scanner(isr);
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
     public int readSelection() {
