@@ -99,7 +99,9 @@ public class ParkingDataBaseIT {
         assertTrue(((ticket.getOutTime().getTime())- ticket.getInTime().getTime()) >= (2*60*60*1000) 
         		&& ((ticket.getOutTime().getTime())- ticket.getInTime().getTime()) < (2*60*60*1000 + 30*1000));
       
-     }
+    }
+    
+    // Test for free 30 minutes parking time
     
     @Test
     public void testParkingLotExitUnder30MinutesParkingTime(){
@@ -123,6 +125,8 @@ public class ParkingDataBaseIT {
         assertTrue(ticket.getPrice() == 0 );
        
      }
+    
+    // Test for recurring users
     
     @Test
     public void testParkingLotExitForRecurringUser(){

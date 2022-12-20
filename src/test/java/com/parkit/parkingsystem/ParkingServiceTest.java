@@ -70,7 +70,6 @@ public class ParkingServiceTest {
 		assertNotNull(ticket);
 		verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 	}
-
 	
 	@Test
 	public void processExitingBikeVehicleTest() {
@@ -171,7 +170,6 @@ public class ParkingServiceTest {
 		assertTrue(ticket.getRecurringUser());
 		verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
 	}
-
 	
 	@Test
 	public void getNextParkingNumberIfAvailableTest_withFalseCondition() {
