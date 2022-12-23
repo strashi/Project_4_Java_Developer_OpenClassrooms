@@ -29,8 +29,7 @@ public class ParkingSpotDAO {
             ps.setString(1, parkingType.toString());
             rs = ps.executeQuery();
             if(rs.next()){
-            	System.out.println(rs);
-                result = rs.getInt(1);
+            	result = rs.getInt(1);
             }
             
         }catch (Exception ex){

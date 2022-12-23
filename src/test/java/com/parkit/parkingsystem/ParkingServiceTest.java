@@ -5,13 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.booleanThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.parkit.parkingsystem.constants.ParkingType;
@@ -27,7 +22,6 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import com.parkit.parkingsystem.service.InteractiveShell;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
@@ -36,12 +30,6 @@ public class ParkingServiceTest {
 
 	private ParkingService parkingService;
 	
-	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	
-	private final PrintStream originalOut = System.out;
-	
-
-
 	@Mock
 	private static InputReaderUtil inputReaderUtil;
 	@Mock
@@ -229,17 +217,11 @@ public class ParkingServiceTest {
 	public void processIncomingVehicleTest_withVehicleRegNumberAlreadyParked() {
 		try {
 			// ARRANGE
-						
 			when(inputReaderUtil.readSelection()).thenReturn(1);
-			//when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+			when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
 			when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-			//when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
-			//when(ticketDAO.checkVehicleRegNumber("ABCDEF")).thenReturn(false);
-			//when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
 			when(parkingService.actuallyParkedVehicle(anyString())).thenReturn(true);
-			
-			
-			//parkingService.processIncomingVehicle();
+					
 			} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Failed to set up test mock objects");
@@ -250,11 +232,7 @@ public class ParkingServiceTest {
 
 		// ASSERT
 		assertNull(ticket);
-		//assertTrue(parkingService.actuallyParkedVehicle("ABCDEF"));
-		
+				
 	}
-	
-	
-	
 	
 }
