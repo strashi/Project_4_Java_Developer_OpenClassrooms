@@ -9,7 +9,8 @@ import org.apache.logging.log4j.Logger;
 public class InteractiveShell {
 
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
-
+    
+      
     public static void loadInterface(){
         logger.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
@@ -40,6 +41,7 @@ public class InteractiveShell {
                 default: System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
             }
         }
+      
     }
 
     private static void loadMenu(){

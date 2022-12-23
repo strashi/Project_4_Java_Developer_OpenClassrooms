@@ -33,40 +33,57 @@ public class ParkingService {
 			ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
 			if (parkingSpot != null && parkingSpot.getId() > 0) {
 				String vehicleRegNumber = getVehichleRegNumber();
-				parkingSpot.setAvailable(false);
-				parkingSpotDAO.updateParking(parkingSpot);// allot this parking space and mark it's availability as
-															// false
 
-				// Research of the vehicleRegNumber in DB
-				boolean recurringUser = false;
-				recurringUser = recurringUser(vehicleRegNumber);
-				if (recurringUser) {
-					System.out.println(
-							"Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
-				}
-
-				Date inTime = new Date();
-				Ticket ticket = new Ticket();
-				// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME,RECURRING_USER)
+				// Check if the vehicle with the given vehicleRegNumber is
+				// actually already present in the parking
 			
-				ticket.setParkingSpot(parkingSpot);
-				ticket.setVehicleRegNumber(vehicleRegNumber);
-				ticket.setPrice(0);
-				ticket.setInTime(inTime);
-				ticket.setOutTime(null);
-				ticket.setRecurringUser(recurringUser);
-				ticketDAO.saveTicket(ticket);
+				if (actuallyParkedVehicle(vehicleRegNumber)) {
+					System.out.println("No valid vehicle registration number");
+				} else {
 
-				System.out.println("Generated Ticket and saved in DB");
-				System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
-				System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
-				return ticket;
+					parkingSpot.setAvailable(false);
+					parkingSpotDAO.updateParking(parkingSpot);// allot this parking space and mark it's availability as
+																// false
+					
+					// Research of the vehicleRegNumber in DB
+					boolean recurringUser = false;
+					recurringUser = recurringUser(vehicleRegNumber);
+					if (recurringUser) {
+						System.out.println(
+								"Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+					}
+
+					Date inTime = new Date();
+					Ticket ticket = new Ticket();
+					// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME,
+					// OUT_TIME,RECURRING_USER)
+
+					ticket.setParkingSpot(parkingSpot);
+					ticket.setVehicleRegNumber(vehicleRegNumber);
+					ticket.setPrice(0);
+					ticket.setInTime(inTime);
+					ticket.setOutTime(null);
+					ticket.setRecurringUser(recurringUser);
+					ticketDAO.saveTicket(ticket);
+
+					System.out.println("Generated Ticket and saved in DB");
+					System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
+					System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
+					return ticket;
+				}
 			}
 		} catch (Exception e) {
 			logger.error("Unable to process incoming vehicle", e);
 
 		}
+
 		return null;
+	}
+
+	public boolean actuallyParkedVehicle(String vehicleRegNumber) {
+
+		return ticketDAO.checkActuallyParkedVehicle(vehicleRegNumber);
+
 	}
 
 	public boolean recurringUser(String vehicleRegNumber) {
@@ -89,7 +106,7 @@ public class ParkingService {
 			if (parkingNumber > 0) {
 				parkingSpot = new ParkingSpot(parkingNumber, parkingType, true);
 			} else {
-				throw new Exception("Error fetching parking number from DB. Parking slots might be full");
+				throw new Exception("Error fetching parking number from DB. Parking slots might be full:" + parkingNumber);
 			}
 		} catch (IllegalArgumentException ie) {
 			logger.error("Error parsing user input for type of vehicle", ie);
@@ -130,7 +147,8 @@ public class ParkingService {
 				parkingSpot.setAvailable(true);
 				parkingSpotDAO.updateParking(parkingSpot);
 				System.out.println("Please pay the parking fare:" + ticket.getPrice());
-				System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
+				System.out.println(
+						"Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
 				return ticket;
 			} else {
 				System.out.println("Unable to update ticket information. Error occurred");

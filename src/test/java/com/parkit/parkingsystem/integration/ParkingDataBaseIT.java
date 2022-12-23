@@ -153,5 +153,32 @@ public class ParkingDataBaseIT {
         		&& ((ticket.getOutTime().getTime())- ticket.getInTime().getTime()) < (2*60*60*1000 + 30*1000));
       
      }
+    /*
+    ///Test à l'arrache
+    @Test
+    public void testParkingLotExit_RecurringUsers(){
+        //TODO: check that the fare generated and out time are populated correctly in the database
+    	
+    	//ARRANGE
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+    	ticket = new Ticket();
+        ticket.setId(0);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setOutTime(new Date(System.currentTimeMillis()));
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setInTime(new Date(System.currentTimeMillis()-((2*60*60*1000)+(5*1000))));
+        ticket.setPrice(3);
+        ticketDAO.saveTicket(ticket);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        
+        //ACT
+        ticket = parkingService.processIncomingVehicle();
+        //ticketDAO.checkVehicleRegNumber("ABCDEF");
+             
+        //ASSERT
+        assertTrue(ticket.getRecurringUser());
+        assertTrue(ticketDAO.checkVehicleRegNumber("ABCDEF"));
+    }*/
     
 }
