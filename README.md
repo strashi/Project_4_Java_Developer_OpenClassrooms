@@ -1,3 +1,18 @@
+# Back-end Developer : Java
+
+## Project 4 :
+
+## " Test the implementation of a new Java feature "
+
+Skills tested :
+- Implement unit tests
+- Provide corrective patches when suggested by test execution reports
+- Implement integration tests
+- Produce a test execution report
+
+![image](https://github.com/strashi/P4/assets/94161747/e7cc0d04-222d-43a3-9081-f9d21b28e521)
+
+
 # Parking System
 A command line app for managing the parking system. 
 This app uses Java to run and stores the data in Mysql DB.
